@@ -1,4 +1,4 @@
-# Programming Dessign Patterns
+# Programming Design Patterns
 
 This is just a simple compilation of programming design patterns
 
