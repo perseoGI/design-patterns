@@ -29,15 +29,18 @@ Car < >---- Passenger
 
 Represent relationships between classes, but does not imply a class holds another class
 
-
+```
                    uses
 Application    ------------   Database
-
+```
 
 Driver uses feature of car
 
+```
+
                    drives
       Driver    ------------>   Car
+```
 
 
 
