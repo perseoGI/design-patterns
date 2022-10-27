@@ -1,9 +1,8 @@
 # Singleton Creational Pattern
 
-Ensure a class  only has one instance, and provide a global point of access to it.
+Ensure a class only has one instance, and provide a global point of access to it.
 
 Cons: behaves like a global variable
-
 
 ## Implementation
 
@@ -49,10 +48,11 @@ Instance is created by the time `getInstance` method is first called.
 inline static (c++ v17) allow declare static class variables in class declaration
 
 See lazy-instance.cpp.
- 
+
 Secure deleting a singleton:
+
 ```cpp
-// With a raw pointer 
+// With a raw pointer
 
 Logger::Logger(){
     m_pStream = fopen("log.txt", "w");
@@ -80,7 +80,7 @@ See DCLP.md
 Prevent DCLP thread unsafe problems by declaring a static local variable inside the `getInstance` method
 
 From C++11, static construction is thread safe.
-This avoid using heap and having to create a destructor. 
+This avoid using heap and having to create a destructor.
 
 ```cpp
 Instance & Instance::getInstance(){
@@ -102,22 +102,19 @@ Instance & Instance::getInstance(){
     std::call_once(flag, [](){m_instance{new Instance{}};});
     return *m_instance;
 }
- 
 ```
 
 Before C++11:
+
 - POSIX: `pthread_once`
 - Windows: `InitOnceExecuteOnce`
 
-
 ## Which prefer?
 
-If possible, always use eager instances.
-If runtime data is needed to construct the instance, use lazy instance, preferable Mayer's implementation.
-If heap is needed (?) use a smart unique pointer or raw pointer.
-
-Always prefer Mayer's implementation (local static variables) rather than `std::call_once` due to performance.
-
+- If possible, always use eager instances.
+- If runtime data is needed to construct the instance, use lazy instance, preferable Mayer's implementation.
+- If heap is needed (?) use a smart unique pointer or raw pointer.
+- Always prefer Mayer's implementation (local static variables) rather than `std::call_once` due to performance.
 
 ## Templating a Singleton (CRTP)
 
@@ -130,3 +127,24 @@ CRTP is a C++ idiom in which a class X derives from a class template instantiati
 ```cpp
 class Derived : public Base<Derived>{};
 ```
+
+## Singleton vs Monostate
+
+| Singleton                                                                       | Monostate                                                            |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Enforces singular instance through structure                                    | Enforces singular instance through behaviour                         |
+| Only one instance can exist                                                     | Class may or may not be instantiated (depends on the implementation) |
+| Support lazy instantiation                                                      | No support for lazy instantiation                                    |
+| Requieres static getInstance method                                             | All attributes ares static (methods may be static)                   |
+| Can support inheritance & polymorphism                                          | Static methods cannot be overridden                                  |
+| Existing classes can be made singletons                                         | Difficult to migrate a existing class to monostate                   |
+| Flexible (can be modified to create multiple<br> instances => multiton pattern) | Inflexible                                                           |
+
+
+## Disadvantages of Singleton pattern
+
+- Using a singleton class, its name is used directly, violating Dependency Inversion Principle -> program the interface, not the implementation
+- Difficult to replace this class with other class
+- Difficult to unit test / mock
+
+There are some approach which make it easy to unit test a singleton class, see singleton-issue.cpp.
