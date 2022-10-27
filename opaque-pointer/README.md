@@ -2,7 +2,7 @@
 
 Explanation on [Wikipedia](https://en.wikipedia.org/wiki/Opaque_pointer)
 
-This techique allows two main things:
+This technique allows two main things:
 
 1. Obfuscate implementation details for a class / structure on a library
 2. Improve compilation performance:
