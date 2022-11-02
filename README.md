@@ -103,10 +103,9 @@ class TagedNotes : public Notes {
 
 ### Liskov-Substitution Principle
 
-Subtypes must be substitutable for their base types
-Ensure a subclass has all the behaviors the base class has
-It should provide a different behavior than the base class has
-But it should not change or modify behavior
+- Subtypes must be substitutable for their base types
+- Ensure a subclass has all the behaviors the base class has
+- It should provide a different behavior than the base class has but it should not change or modify behavior
 
 Automatically follow Open-Close Principle
 
@@ -162,7 +161,7 @@ class BoolOperation : IOperation {
 
 ### Interface Segregation Principle
 
-Clients should not be forced to depend on methods they dont use 
+Clients should not be forced to depend on methods they don't use 
 
 An interface with too many methods will be complex to use (fat interface)
 
@@ -217,6 +216,7 @@ class ImageViewer {
 }
 ```
 Violated Open-Close and Liskov-Substitution principles
+
 Solution
 
 ```cpp

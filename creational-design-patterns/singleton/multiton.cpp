@@ -7,77 +7,75 @@
 
 class Printer;
 
-class PrinterProvider {
-    inline static std::unordered_map<std::string, Printer*> m_printers{};
+class PrinterProvider
+{
+    inline static std::unordered_map<std::string, Printer *> m_printers{};
     PrinterProvider();
-    inline static std::recursive_mutex m_mutex;     // allow doble locking mutex by same thread
+    inline static std::recursive_mutex m_mutex;  // allow doble locking mutex by same thread
 public:
-    static void registerPrinter(const std::string &name, Printer* printer){
-        std::lock_guard lock {m_mutex};
+    static void registerPrinter(const std::string &name, Printer *printer)
+    {
+        std::lock_guard lock{m_mutex};
         std::cout << "Registring printer " << name << '\n';
         m_printers[name] = printer;
     }
-    static Printer *getPrinterPtr(const std::string &name){
-        std::lock_guard lock {m_mutex};
-        if(auto it = m_printers.find(name); it != m_printers.end()) 
+    static Printer *getPrinterPtr(const std::string &name)
+    {
+        std::lock_guard lock{m_mutex};
+        if (auto it = m_printers.find(name); it != m_printers.end())
             return it->second;
         return nullptr;
     }
-    static Printer &getPrinterRef(const std::string &name){
-        std::lock_guard lock {m_mutex};
-        if(auto pPrinter{getPrinterPtr(name)})
+    static Printer &getPrinterRef(const std::string &name)
+    {
+        std::lock_guard lock{m_mutex};
+        if (auto pPrinter{getPrinterPtr(name)})
             return *pPrinter;
         throw std::runtime_error("No printer with name " + name + " found");
     }
 };
 
-class Printer {
+class Printer
+{
 protected:
     Printer() = default;
 
 public:
-    Printer(const Printer&) = delete;
-    Printer& operator =(const Printer&) = delete;
+    Printer(const Printer &) = delete;
+    Printer &operator=(const Printer &) = delete;
     virtual ~Printer() = default;
-    virtual void print(const std::string &data) = 0 ;
+    virtual void print(const std::string &data) = 0;
     virtual Printer &getInstance() = 0;
 };
 
-
-class LocalPrinter : public Printer {
+class LocalPrinter : public Printer
+{
     static LocalPrinter m_instance;
-    LocalPrinter() {
-        PrinterProvider::registerPrinter("local", this);
-    };
+    LocalPrinter() { PrinterProvider::registerPrinter("local", this); };
+
 public:
-    void print(const std::string &data) override {
-        std::cout << "[LOCAL PRINTER] " << data << std::endl;
-    }
+    void print(const std::string &data) override { std::cout << "[LOCAL PRINTER] " << data << std::endl; }
     LocalPrinter &getInstance() override { return m_instance; }
 };
-LocalPrinter LocalPrinter::m_instance ;
+LocalPrinter LocalPrinter::m_instance;
 
-
-class HttpPrinter : public Printer {
+class HttpPrinter : public Printer
+{
     static HttpPrinter m_instance;
-    HttpPrinter() {
-        PrinterProvider::registerPrinter("http", this);
-    };
+    HttpPrinter() { PrinterProvider::registerPrinter("http", this); };
+
 public:
-    void print(const std::string &data) override {
-        std::cout << "[HTTP PRINTER] " << data << std::endl;
-    }
+    void print(const std::string &data) override { std::cout << "[HTTP PRINTER] " << data << std::endl; }
     HttpPrinter &getInstance() override { return m_instance; }
 };
-HttpPrinter HttpPrinter::m_instance ;
+HttpPrinter HttpPrinter::m_instance;
 
-
-int main(){
+int main()
+{
     Printer *printer = PrinterProvider::getPrinterPtr("local");
-    if(printer)
+    if (printer)
         printer->print("hello wooorld");
 
     auto &httpPrinter = PrinterProvider::getPrinterRef("http").getInstance();
     httpPrinter.print("hehe");
 }
-

@@ -2,8 +2,6 @@
 
 Ensure a class only has one instance, and provide a global point of access to it.
 
-Cons: behaves like a global variable
-
 ## Pros
 
 - Complete control of instantiation process
@@ -170,5 +168,14 @@ class Derived : public Base<Derived>{};
 There are some approach which make it easy to unit test a singleton class, see singleton-issue.cpp.
 
 
-# Multiton
+# Multiton / Singleton Registry
+
+See `multiton.cpp`, `multiton-lazy-dynamic.cpp` and `multiton-lazy-mayers.cpp`.
+
+A multiton could be think as a generalization of the singleton pattern, which
+allows a controlled creation of multiple instances, managed through the use of
+a map:
+
+`instances: Map<key, Intance>`
+
 
