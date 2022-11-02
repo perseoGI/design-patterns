@@ -4,6 +4,26 @@ Ensure a class only has one instance, and provide a global point of access to it
 
 Cons: behaves like a global variable
 
+## Pros
+
+- Complete control of instantiation process
+- Can allow multiple (but limited) instances -> multiton
+- Better than a global variable. Just not a single variable but an object which has the full control on all its methods
+- Can be subclassed
+
+## Cons
+
+- Used directly through the name of the class -> difficult to test, mock
+- DCLP on multithreading applications is defective
+- Lazy instance destruction is complex
+
+## When to use?
+
+- When only one instance should be used
+    - Multiple instances cause data corruption
+    - Managing global/shared state
+    - Multiple instances are not required
+
 ## Implementation
 
 - Class is made responsible for its own instance
@@ -148,3 +168,7 @@ class Derived : public Base<Derived>{};
 - Difficult to unit test / mock
 
 There are some approach which make it easy to unit test a singleton class, see singleton-issue.cpp.
+
+
+# Multiton
+

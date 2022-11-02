@@ -32,6 +32,7 @@ public:
 
 LocalPrinter  LocalPrinter::m_instance;
 
+// This violates Open-Close principle (when new derived class is added)
 Printer &Printer::getInstance(const std::string &type) {
     if (type == "local")
         return LocalPrinter::getInstance();
