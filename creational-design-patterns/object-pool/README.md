@@ -8,12 +8,26 @@ Improve performance & memory use by reusing objects from a fixed pool instead of
 
 ## Pros
 
+- Reduces coupling with concrete classes
+- Behaves like _operator new_, but is more flexible
+- Caching existing instances may improves performance
+- Reduces overhead of heap allocation & deallocation
+- Reduces heap fragmentation
+
 ## Cons
 
+- Memory may be wasted on unused pooled objects
+- Pooled objects may remain in memory until the end of the program
+- Object that are acquired from the pool must be reset prior to their use
+    - If the pool is the one to reset the state, it may expose implementation details of the objects
+- Clients have to ensure that an unused object is returned to the pool
+- ObjectPool class may get tightly coupled with the classes of the pooled objects
+    - May force modifying existing objects to support allocation techniques 
 
 ## When to use?
 
 - Application needs to create and destroy tons of objects and that is a performance issue (tends to fragment the heap)
+- Objects are expensive to create from scratch
 
 ## Implementation
 

@@ -29,18 +29,18 @@ public:
     }
 };
 
-using ObjectPtr = std::shared_ptr<Missile>;
-std::vector<ObjectPtr> missiles{};
+using ActorPtr = std::shared_ptr<Missile>;
+std::vector<ActorPtr> actors{};
 
-class Pool
+class ActorPool
 {
-    inline static std::vector<ObjectPtr> m_objects{};
-    Pool() = default;
+    inline static std::vector<ActorPtr> m_actorPool{};
+    ActorPool() = default;
 
 public:
-    static ObjectPtr accquireObject()
+    static ActorPtr accquireObject()
     {
-        for (auto &obj : m_objects) {
+        for (auto &obj : m_actorPool) {
             if (!obj->isVisible()) {
                 std::cout << "Returning an existing instance\n";
                 obj->setVisible(true);
@@ -49,14 +49,14 @@ public:
         }
         std::cout << "Creating new instance\n";
         auto newObj{std::make_shared<Missile>()};
-        m_objects.push_back(newObj);
+        m_actorPool.push_back(newObj);
         return newObj;
     }
 
     // Here is not required because we have the visibility flag
-    static void releaseObject(const ObjectPtr &missile)
+    static void releaseObject(const ActorPtr &missile)
     {
-        for (auto &obj : m_objects) {
+        for (auto &obj : m_actorPool) {
             if (obj == missile) {
                 obj->setVisible(false);
             }
@@ -66,13 +66,13 @@ public:
 
 void fire()
 {
-    missiles.push_back(Pool::accquireObject());
-    missiles.push_back(Pool::accquireObject());
+    actors.push_back(ActorPool::accquireObject());
+    actors.push_back(ActorPool::accquireObject());
 }
 
 void animate()
 {
-    std::for_each(missiles.begin(), missiles.end(), [](auto &missile) { missile->update(); });
+    std::for_each(actors.begin(), actors.end(), [](auto &missile) { missile->update(); });
 }
 
 void explode()
@@ -80,8 +80,8 @@ void explode()
     using namespace std;
     std::cout << "X\n";
     // Return instances to the pool with visibility flag!
-    std::for_each(missiles.begin(), missiles.end(), [](auto &missile) { missile->setVisible(false); });
-    missiles.clear();
+    std::for_each(actors.begin(), actors.end(), [](auto &missile) { missile->setVisible(false); });
+    actors.clear();
     std::this_thread::sleep_for(1s);
     std::cout << "\n\n";
 }

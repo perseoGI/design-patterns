@@ -30,25 +30,25 @@ public:
 };
 
 using MissilePtr = std::shared_ptr<Missile>;
-std::vector<MissilePtr> missiles{};
+std::vector<MissilePtr> actors{};
 
 void fire()
 {
-    missiles.push_back(std::make_shared<Missile>());
-    missiles.push_back(std::make_shared<Missile>());
+    actors.push_back(std::make_shared<Missile>());
+    actors.push_back(std::make_shared<Missile>());
 }
 
 void animate()
 {
-    std::for_each(missiles.begin(), missiles.end(), [](auto &missile) { missile->update(); });
+    std::for_each(actors.begin(), actors.end(), [](auto &missile) { missile->update(); });
 }
 
 void explode()
 {
     using namespace std;
     std::cout << "X\n";
-    std::for_each(missiles.begin(), missiles.end(), [](auto &missile) { missile->setVisible(false); });
-    missiles.clear();
+    std::for_each(actors.begin(), actors.end(), [](auto &missile) { missile->setVisible(false); });
+    actors.clear();
     std::this_thread::sleep_for(1s);
     std::cout << "\n\n";
 }
