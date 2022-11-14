@@ -5,12 +5,24 @@ create new objects by copying this prototype
 
 ## Pros
 
+- As it behaves as a factory, it has all the pros a factory has
+- Concrete classes are hidden from the clients -> loose coupling
+- Products can be added or removed at runtime -> useful for languages without reflection (C++)
+- New objects can be specified by varying values -> reduces number of classes
 
 ## Cons
 
+- Each class must support `clone()` operation -> difficult to add if the classes already exist
+    - All classes must inherit from base class
+- Difficult to implement when class internals contain members that do not support copying (streams, threads, etc)
 
 ## When to use?
 
+- Achieve loose coupling -> reduce dependency on concrete classes
+- Avoid parallel hierarchy of factories by creating a one factory that return clones of existing objects
+- A class have few variations in their instances state
+    - Instead of creating different classes, create properties in the class
+- Dynamically specify new objects in the application
 
 ## Implementation
 
@@ -65,3 +77,19 @@ Most of the times it is not a good idea to use it (game.cpp)
 
 
 Virtual constructor: copy constructor which does not need to know the type of the object being copied -> C++ does not provide such thing.
+
+
+## Prototype Manager
+
+- Class that manages the state of the current copies
+- Responsible for storing the prototypes in the application
+- When the application requieres an instance, it should request it to the Prototype Manager
+- It will return a clone of an existing instances
+- Application can register / deregister classes at runtime
+
+## Alternative implementation
+
+- Serialization can be used for cloning
+- Does not mandate implementation of any interface
+- Always creates a deep copy
+- Useful when the prototype is required at some late point -> write to disk (inefficient)
