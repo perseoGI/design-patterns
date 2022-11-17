@@ -8,6 +8,9 @@
 Separate the construction of a complex object from its representation so that
 the same construction process can create different representations
 
+![builder-structure](https://user-images.githubusercontent.com/26503843/202435017-64682a0c-c45b-4926-93a8-480be24463ec.png)
+![builder-collaboration](https://user-images.githubusercontent.com/26503843/202435071-cb87e37e-0352-4f80-ac42-a7ec47828b1d.png)
+
 ## Pros
 
 - Hides internal representation and structure of the product
