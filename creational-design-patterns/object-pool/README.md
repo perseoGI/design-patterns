@@ -6,6 +6,9 @@ Allows to use cached instances of objects instead of creating new objects each t
 
 Improve performance & memory use by reusing objects from a fixed pool instead of allocating & freeing them repetitively.
 
+![object-pool-structure](https://user-images.githubusercontent.com/26503843/203759781-f6fab353-ef56-44b6-9fed-7028de0d247c.png)
+
+
 ## Pros
 
 - Reduces coupling with concrete classes
