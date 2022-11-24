@@ -4,6 +4,9 @@ Also known as Virtual Constructor
 
 Can be used to create instances of classes without depending on concrete types
 
+![factory-method-structure](https://user-images.githubusercontent.com/26503843/203759340-b80a384f-941b-4b07-b0ac-3802a33c8609.png)
+
+
 ## Pros
 
 - Instances can be created at runtime
