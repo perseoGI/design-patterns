@@ -3,6 +3,9 @@
 Specify the kinds of objects to create using a prototypical instance, and
 create new objects by copying this prototype
 
+![prototype-structure](https://user-images.githubusercontent.com/26503843/203761298-d139f403-2c49-4028-b00a-5d45ee190719.png)
+
+
 ## Pros
 
 - As it behaves as a factory, it has all the pros a factory has
@@ -43,6 +46,8 @@ create new objects by copying this prototype
 - Programming languages support this feature through cloning/copy constructor
 - Default implementation of these methods will copy the references in the object instead of coping the actual data
 
+![shallow-copy-structure](https://user-images.githubusercontent.com/26503843/203761612-a2965c0e-8217-4d58-9be3-2b2aabe4b04d.png)
+
 #### C++
 
 - Primitive types are copied
@@ -64,6 +69,8 @@ A class with ownership semantics must implement the **Rule Of Five!**:
 - The state is copied but references are copied differently
 - References are not copied, instead the objects they refer to are copied
 - Usually has to be implemented manually
+
+![deep-copy-structure](https://user-images.githubusercontent.com/26503843/203761804-5d0aa30c-9229-490f-915a-aa1500cdf1e1.png)
 
 
 ## Issues with copy constructor C++
