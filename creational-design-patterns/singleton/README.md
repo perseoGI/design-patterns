@@ -2,6 +2,8 @@
 
 Ensure a class only has one instance, and provide a global point of access to it.
 
+![singleton-structure](https://user-images.githubusercontent.com/26503843/203757252-c57f839b-a49f-46df-bf22-a511fca87057.png)
+
 ## Pros
 
 - Complete control of instantiation process
