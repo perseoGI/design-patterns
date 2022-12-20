@@ -10,12 +10,16 @@ Used for interface inversion:
 ## Adapter Variations
 ### Object Adapter
 
+<img src="https://user-images.githubusercontent.com/26503843/208723419-488b698e-0f59-429c-921d-cdd4d504aa94.png" alt="drawing" width="700"/>
+
 - Client can only make a concrete request
 - The library/class which can't be modified by client do not expose that method the way client must call it
 - Create a Adapter class which inherits from Target interface
 - Adapter compose the Adaptee class
 
 ### Class Adapter
+
+<img src="https://user-images.githubusercontent.com/26503843/208723494-2550c434-43ed-4b3b-bb84-7744be4cfbe0.png" alt="drawing" width="700"/>
 
 - Adapter inherit from Target so that it inherit the client interface
 - Adapter inherit from Adaptee so that it inherit its implementation
