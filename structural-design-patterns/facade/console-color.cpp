@@ -2,10 +2,11 @@
 #include <string>
 #include <iostream>
 
-int main(){
+int main()
+{
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csinfo{};
-    if(!GetConsoleScreenBufferInfo(hConsole, &csinfo)){
+    if (!GetConsoleScreenBufferInfo(hConsole, &csinfo)) {
         std::cout << "Error getting console info\n";
         return 1;
     }
