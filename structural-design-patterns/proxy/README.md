@@ -3,6 +3,9 @@
 Provide a surrogate or placeholder for another object to control access to it.
 Proxy is an alias to an object
 
+<img src="https://user-images.githubusercontent.com/26503843/211289290-29ac4b75-ca92-42af-a477-6a398c537dad.png" alt="drawing" width="700"/>
+
+
 ## Pros
 
 - Provides a layer of indirection in which we can provide additional behaviour to the subject 
