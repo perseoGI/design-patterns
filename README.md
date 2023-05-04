@@ -2,7 +2,6 @@
 
 This is just a simple compilation of programming design patterns
 
-
 ## Pattern
 
 Language & domain independent strategies for solving common OO design problems
@@ -15,15 +14,17 @@ Class contains objects of other class, when it is destroyed, the contained objec
 eg.
 Paragraph contains sentence 
 
+```
 Paragraph  <.>--- Sentence
-
+```
 
 #### Aggregation
 
 Same as composition but when the instance is destroyed, the aggregated instances are not destroyed
 
+```
 Car < >---- Passenger
-
+```
 
 #### Association
 
