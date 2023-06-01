@@ -17,19 +17,20 @@ class Decorator : public Component
 {
     Component *m_ptr{};
 
-// protected: // or just make the constructor protected -> cant be used with C++11 constructor inheritance
+    // protected: // or just make the constructor protected -> cant be used with C++11 constructor inheritance
 public:
     Decorator(Component *ptr)
         : m_ptr{ptr}
     {
     }
 
-// public:
-//     void operation() override;
+    // public:
+    //     void operation() override;
     void operation() override = 0;  // make an abstract class but define it anyway to forbid Decorator instantiation
 };
 
-void Decorator::operation() { 
+void Decorator::operation()
+{
     m_ptr->operation();
 }
 
@@ -49,8 +50,12 @@ class ConcreteDecoratorB : public Decorator
 {
     // using Decorator::Decorator;
     std::string state{"hello"};
+
 public:
-    ConcreteDecoratorB(Component *comp) : Decorator(comp) {}
+    ConcreteDecoratorB(Component *comp)
+        : Decorator(comp)
+    {
+    }
 
     void operation() override
     {
@@ -62,7 +67,8 @@ public:
 };
 
 // Client abstraction layer
-void operate(Component *comp){
+void operate(Component *comp)
+{
     comp->operation();
 }
 

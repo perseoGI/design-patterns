@@ -12,6 +12,7 @@ Language & domain independent strategies for solving common OO design problems
 
 Class contains objects of other class, when it is destroyed, the contained objects will also be destroyed
 eg.
+
 Paragraph contains sentence 
 
 ```
@@ -49,9 +50,9 @@ Design classes and relationships
 
 ### Single Responsibility Principle
 
-A class should have only one reason to change
-Should only have one responsibility
-Having more than one will break with minor changes
+- A class should have only one reason to change
+- Should only have one responsibility
+- Having more than one will break with minor changes
 
 ```cpp
 class Notes{
@@ -75,8 +76,8 @@ class View{
 
 ### Open-Close Principle
 
-Modules should be open for extension but close for modification
-Add new code to change or add features but not change existing code
+- Modules should be open for extension but close for modification
+- Add new code to change or add features but not change existing code
 
 ```cpp
 class Notes{
@@ -107,8 +108,8 @@ class TagedNotes : public Notes {
 - Subtypes must be substitutable for their base types
 - Ensure a subclass has all the behaviors the base class has
 - It should provide a different behavior than the base class has but it should not change or modify behavior
-
-Automatically follow Open-Close Principle
+    - Changing behaviour could mean that, even returning the same type, that type could be understood in a different way
+- By following Liskov principle, we automatically follow Open-Close Principle
 
 ```cpp
 class Operation {
@@ -120,7 +121,11 @@ void Operate(Operation *op) {
     auto result = op->ResultOf(begin(arr), end(arr));
     std::cout << result;
 }
+```
 
+Suppose we need to add a boolean operator:
+
+```cpp
 class BoolOperation : public Operation {
     int ResultOf(int *begin, int *end) override {
         // return bool
@@ -143,30 +148,51 @@ void Operate(Operation *op) {
 Solution
 ```cpp
 
-using ReturnType = std::variant<int,bool>;
+using ReturnType = std::variant<int, bool>;
 
-class IOperation {
-    virtual ReturnType ResultOf(int *begin, int *end) = 0;
-    virtual ~ReturnType() = default;
+struct IOperation {
+    virtual ReturnType resultOf(int *begin, int *end) = 0;
+    virtual ~IOperation() = default;
 };
 
-class Operation : IOperation {
-    virtual int ResultOf(int *begin, int *end){ /* return int */ } 
+struct SumOperation : IOperation {
+    ReturnType resultOf(int *begin, int *end) { return std::accumulate(begin, end, 0); }
 };
 
-class BoolOperation : IOperation {
-    virtual int ResultOf(int *begin, int *end){ /* return bool */ }
+struct BoolOperation : IOperation {
+    virtual ReturnType resultOf(int *begin, int *end)
+    {
+        return true;
+    }
 };
 
+// helper type for the visitor
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
+
+void operate(IOperation *op)
+{
+    int arr[4]{1, 2, 3, 4};
+    auto result = op->resultOf(std::begin(arr), std::end(arr));
+    // Use visitation for type safe access
+
+    std::visit(overloaded{
+                   [](int result) { std::cout << "Integer: " << result << '\n'; },
+                   [](bool result) { std::cout << "Boolean: " << std::boolalpha << result << '\n'; },
+               },
+               result);
+}
 ```
 
 ### Interface Segregation Principle
 
-Clients should not be forced to depend on methods they don't use 
-
-An interface with too many methods will be complex to use (fat interface)
-
--> Separate the interface and put methods based on the client usage
+- Clients should not be forced to depend on methods they don't use 
+- An interface with too many methods will be complex to use (fat interface)
+- Separate the interface and put methods based on the client usage
 
 ```cpp
 struct IFile {
@@ -191,14 +217,12 @@ struct IWrite {
 
 ### Dependency Inversion Prinnciple
 
-Abstractions should not depend on details. Details should depend on abstractions.
-
-Abstractions => interfaces
-Details => classes
-
-Program the interface not the implementation
-Using concrete class directly creates a dependency -> difficult to modify
-Invert the dependency by using an interface rather a concrete class
+- Abstractions should not depend on details. Details should depend on abstractions.
+    - Abstractions => interfaces
+    - Details => classes
+- Program the interface not the implementation
+- Using concrete class directly creates a dependency -> difficult to modify
+- Invert the dependency by using an interface rather a concrete class
 
 
 ```cpp
